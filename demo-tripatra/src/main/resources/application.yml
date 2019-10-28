@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  
+spring:
+  security:
+    user:
+      name: demo
+      password: Password123
+      
+  jpa:
+    database: h2
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:h2:~/demo
+    username: demo
+    password: password
+    hikari:
+      maximum-pool-size: 5
+      connection-test-query: select 1
