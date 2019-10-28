@@ -19,3 +19,5 @@ spring:
     hikari:
       maximum-pool-size: 5
       connection-test-query: select 1
+      
+service.swagger-host: 35.197.144.152/demo
