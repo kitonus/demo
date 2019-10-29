@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
             .antMatchers("/api/public").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .anyRequest().permitAll()
-//            .anyRequest().authenticated()
+            .anyRequest().authenticated()
             .and()
             .csrf().disable()
             .sessionManagement()
