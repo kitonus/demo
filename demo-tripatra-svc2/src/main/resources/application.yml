@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   
 spring:
   security:
@@ -13,11 +13,11 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:h2:~/demo
-    username: demo
+    url: jdbc:h2:~/demo2
+    username: demo2
     password: password
     hikari:
       maximum-pool-size: 5
       connection-test-query: select 1
       
-service.swagger-host: 35.197.144.152/demo
+service.swagger-host: 35.197.144.152/demo2
