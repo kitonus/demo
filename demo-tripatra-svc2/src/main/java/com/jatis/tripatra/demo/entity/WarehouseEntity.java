@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -62,6 +64,13 @@ public class WarehouseEntity {
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
+	
+	@PrePersist
+	@PreUpdate
+	private void updateLastUpdate() {
+		this.lastUpdate = new Date();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
