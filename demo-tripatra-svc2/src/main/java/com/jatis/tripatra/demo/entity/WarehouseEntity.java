@@ -67,7 +67,7 @@ public class WarehouseEntity {
 	
 	@PrePersist
 	@PreUpdate
-	private void updateLastUpdate() {
+	public void updateLastUpdate() {
 		this.lastUpdate = new Date();
 	}
 	
