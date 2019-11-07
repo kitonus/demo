@@ -8,13 +8,16 @@ spring:
       password: "null"
       
   jpa:
-    database: h2
+#    database: h2
+    database: postgresql
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQL95Dialect
   datasource:
-    url: jdbc:h2:~/demo2
-    username: demo2
+    url: "jdbc:postgresql://10.8.1.48:26257/demo?ssl=true&sslmode=require&sslrootcert=/home/hwicaksono/.cockroach-certs/ca.crt&sslkey=/home/hwicaksono/.cockroach-certs/client.demo.key.pk8&sslcert=/home/hwicaksono/.cockroach-certs/client.demo.crt"
+    username: demo
     password: password
     hikari:
       maximum-pool-size: 5
