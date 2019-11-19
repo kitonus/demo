@@ -17,7 +17,7 @@ spring:
       hibernate.dialect: org.hibernate.dialect.PostgreSQL95Dialect
   datasource:
     #url: "jdbc:postgresql://10.8.1.48:26257/demo?ssl=true&sslmode=require&sslrootcert=/home/hwicaksono/.cockroach-certs/ca.crt&sslkey=/home/hwicaksono/.cockroach-certs/client.demo.key.pk8&sslcert=/home/hwicaksono/.cockroach-certs/client.demo.crt"
-    url: "jdbc:postgresql://cockroachdb-public:26257/demo?ssl=true&sslmode=disable"
+    url: "jdbc:postgresql://cockroachdb-public:26257/demo?sslmode=disable"
     username: demo
     password: password
     hikari:
