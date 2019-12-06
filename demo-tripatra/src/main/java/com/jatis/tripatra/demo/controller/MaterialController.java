@@ -15,9 +15,16 @@ import com.jatis.tripatra.demo.repository.MaterialRepository;
 @RequestMapping("/material")
 public class MaterialController {
 
+	/*
+	 * Material repository
+	 */
 	@Autowired
 	private MaterialRepository repo;
-	
+
+	/**
+	 * Find all maaterials
+	 * @return {@link Iterable} of {@link MaterialEntity}
+	 */
 	@GetMapping
 	public Iterable<MaterialEntity> findAll(){
 		return repo.findAll();
@@ -30,6 +37,8 @@ public class MaterialController {
 	
 	@GetMapping("/{code}")
 	public MaterialEntity find(@PathVariable String code) {
+		//Find by material ID if not found return null - Fix BTN-111
 		return repo.findById(code).orElse(null);
 	}
+	
 }

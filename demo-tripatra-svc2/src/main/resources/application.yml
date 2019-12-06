@@ -1,6 +1,9 @@
 server:
   port: 8081
   
+logging:
+  level:
+    com.jatis.tripatra.demo: debug
 spring:
   security:
     user:

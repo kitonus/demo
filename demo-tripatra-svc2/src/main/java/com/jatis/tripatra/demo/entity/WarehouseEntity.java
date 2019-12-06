@@ -11,11 +11,14 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jatis.tripatra.demo.constants.MaterialUnit;
 
 @Entity
 public class WarehouseEntity {
-
+	private static final Logger log = LoggerFactory.getLogger(WarehouseEntity.class);
 	@Id
 	private String code;
 	private String name;
@@ -69,6 +72,9 @@ public class WarehouseEntity {
 	@PreUpdate
 	public void updateLastUpdate() {
 		this.lastUpdate = new Date();
+		if (log.isDebugEnabled()) {
+			log.debug("Last update sudah terupdate"+this.lastUpdate);
+		}
 	}
 	
 	@Override
