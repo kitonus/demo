@@ -1,0 +1,18 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Ingress"
+metadata:
+  name: "demo-tripatra-ingress"
+  namespace: "default"
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  tls: 
+  - secretName: my-first-secret
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: "demo-tripatra-balancer"
+          servicePort: 80
+
