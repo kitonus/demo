@@ -4,6 +4,7 @@ server:
 logging:
   level:
     com.jatis.tripatra.demo: debug
+    org.springframework.cache: debug
 spring:
   security:
     user:

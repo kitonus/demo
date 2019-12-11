@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +47,7 @@ public class WarehouseController implements InitializingBean{
 	}
 
 	@PostMapping
+	@CachePut(cacheNames="Warehouse", key="#warehouse.code")
 	public WarehouseEntity save(@RequestBody WarehouseEntity warehouse) {
 		return repo.save(warehouse);
 	}
@@ -70,6 +74,19 @@ public class WarehouseController implements InitializingBean{
 			log.debug("====>>>>>>> ambil dari DB!!!!! CODE="+code);
 			WarehouseEntity warehouse = repo.findById(code).get();
 			cache.put(code, warehouse);
+			return warehouse;
+		} catch (Exception e) {
+			log.error("Failed getting warehouses "+e);
+			throw e;
+		}
+	}
+	
+	@Cacheable(cacheNames="Warehouse", key="#code")
+	@GetMapping("/{code}/correct_cache")
+	public WarehouseEntity findWCache(@PathVariable String code) {
+		try {
+			log.debug("====>>>>>>> ambil dari DB!!!!! CODE="+code);
+			WarehouseEntity warehouse = repo.findById(code).get();
 			return warehouse;
 		} catch (Exception e) {
 			log.error("Failed getting warehouses "+e);
