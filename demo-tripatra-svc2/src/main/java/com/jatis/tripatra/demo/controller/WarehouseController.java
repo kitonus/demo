@@ -55,7 +55,7 @@ public class WarehouseController implements InitializingBean{
 	}
 
 	/*
-	 * Ini praktek cache yg salah! Jangan pakai HashMap karena tidak mendukung concurrenct access!!!!
+	 * This is wrong cache usage
 	 */
 	private HashMap<String, WarehouseEntity> cache = new HashMap<String, WarehouseEntity>();	
 	
