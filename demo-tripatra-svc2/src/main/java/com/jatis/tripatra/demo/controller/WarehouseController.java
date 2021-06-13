@@ -23,6 +23,7 @@ import com.jatis.tripatra.demo.service.WareHouseService;
 @RequestMapping("/warehouse")
 public class WarehouseController implements InitializingBean{
 	
+	//Ini logger
 	private static final Logger log = LoggerFactory.getLogger(WarehouseController.class);
 
 	@Autowired
@@ -63,18 +64,29 @@ public class WarehouseController implements InitializingBean{
 	public WarehouseEntity find(@PathVariable String code) {
 		try {
 			if (cache.get(code) != null) {
-				log.debug("====>>>>>>> ambil cache !!!!! CODE="+code);
+				if (log.isDebugEnabled()) {
+					log.debug("====>>>>>>> ambil cache !!!!! CODE="+code);
+				}
 				return cache.get(code);
 			}
 			
-			log.debug("====>>>>>>> ambil dari DB!!!!! CODE="+code);
+			if (log.isDebugEnabled()) {
+				log.debug("====>>>>>>> ambil dari DB!!!!! CODE="+code);
+			}
 			WarehouseEntity warehouse = repo.findById(code).get();
-			cache.put(code, warehouse);
+			//cache.put(code, warehouse);
+			
+			wareHouseCachePut(code, warehouse);
+			
 			return warehouse;
 		} catch (Exception e) {
 			log.error("Failed getting warehouses "+e);
 			throw e;
 		}
+	}
+	
+	private void wareHouseCachePut(String key, WarehouseEntity value) {
+		this.cache.put(key, value);
 	}
 	
 	@PostMapping("/selectWarehouse/{code}")

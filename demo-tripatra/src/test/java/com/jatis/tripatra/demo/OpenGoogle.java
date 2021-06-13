@@ -12,9 +12,12 @@ public class OpenGoogle {
 		URL googleUrl = new URL("https://www.google.com");
 		InputStream input = googleUrl.openStream();
 		
-		//Read from google and print to standard output
-		BufferedReader read = new BufferedReader(new InputStreamReader(input));
+		//Read from google and print to standard output 
+		//(using java 6 or below style)
+		BufferedReader read = null;
 		try {
+			read = new BufferedReader(
+				new InputStreamReader(input));
 			String line = read.readLine();
 			while (line != null) {
 				System.out.println(line);
@@ -22,7 +25,10 @@ public class OpenGoogle {
 			}
 			
 		} finally {
-			read.close();
+			//must close resource in finally block
+			if (read != null) {
+				read.close();
+			}
 		}
 	}
 

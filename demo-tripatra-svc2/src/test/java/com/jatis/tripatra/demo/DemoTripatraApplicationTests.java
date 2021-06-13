@@ -10,7 +10,23 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class DemoTripatraApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	//correct method (not one line)
+	public void test() {
+		int x = 3;
+		
+		//correct: if without braces
+		if (x == 3)
+			System.out.print("Three");
+		
+		String[] names = new String[] {"Budi", "Wati"};
+		//incorrect: confusing loop without braces
+		for (String name : names) 
+			System.out.println("inside loop");
+			System.out.println("outside loop");//this may fool programmer's eyes
+		
 	}
+	
+	//one line method
+	public void test2() { System.out.println("one line test2"); }
 
 }

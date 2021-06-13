@@ -35,10 +35,18 @@ public class MaterialController {
 		return repo.save(material);
 	}
 	
+	static boolean isFound = false; //this is really wrong!
+	
 	@GetMapping("/{code}")
 	public MaterialEntity find(@PathVariable String code) {
 		//Find by material ID if not found return null - Fix BTN-111
-		return repo.findById(code).orElse(null);
+		MaterialEntity mat = repo.findById(code).orElse(null);
+		if (mat != null) {
+			isFound = true;
+		} else {
+			isFound = false;
+		}
+		return mat;
 	}
 	
 }

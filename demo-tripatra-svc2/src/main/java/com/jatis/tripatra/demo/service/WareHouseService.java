@@ -23,23 +23,25 @@ public class WareHouseService {
 	
 	@Autowired
 	private ApplicationContext context;
-	
-	@Transactional
+
+	@Transactional(rollbackFor=Throwable.class)
 	public void editWarehouse(WarehouseEntity[] warehouses) throws Exception {
 		warehouses[0] = repo.save(warehouses[0]);
-//		warehouses[1] = childService().editA(warehouses[1]);
-//		warehouses[2] = childService().editB(warehouses[2]);
 		try {
 			warehouses[1] = childService().editA(warehouses[1]);
+			//warehouses[1] = editA(warehouses[1]);//direct call > not transactional
 		} catch (Exception e) {
 			log.warn("editA error: "+e.toString());
 		}
 		try {
 			warehouses[2] = childService().editB(warehouses[2]);
+			//warehouses[2] = editB(warehouses[2]);//direct call > not transactional
 		} catch (Exception e) {
 			log.warn("editB error: "+e.toString());
 		}
-		log.info("Bapak udah kelar");
+		log.info("Since edit B throws error whole transaction is rolled back, warehousesp[2], warehouses[0], warehouses[1] are not saved");
+		//log.info("Since edit B trhwoable is not caught by transaction manager, "
+		//		+ "transaction is not rolled back. warehouses[0], warehouses[1], and warehouses[2] are still saved.");
 	}
 	
 	@Transactional(rollbackFor=Throwable.class)
@@ -64,6 +66,7 @@ public class WareHouseService {
 	 */
 	private WarehouseEntity selected;
 	
+	@Transactional(readOnly = true, rollbackFor = Throwable.class)
 	public WarehouseEntity selectWarehouse(String code) {
 		selected = repo.findById(code).orElse(null);
 		return selected;
@@ -73,8 +76,17 @@ public class WareHouseService {
 		return selected;
 	}
 	
+	
+	//Thread local cache for warehouse currently accessed by current thread
 	private static final ThreadLocal<WarehouseEntity> currentWarehouse = new ThreadLocal<>();
 	
+	/**
+	 * Manipulate warehouse
+	 * @param code warehouse code
+	 * @param name warehouse name
+	 * @param capacity warehouse capacity
+	 * @return warehouse entity
+	 */
 	public WarehouseEntity manipulateWarehouse(String code, String name, double capacity) {
 		try {
 			WarehouseEntity warehouse = repo.findById(code).orElse(null);
@@ -90,7 +102,8 @@ public class WareHouseService {
 		}
 	}
 	
-	private void editName(String name) {
+	//uneeded public as method's access modifier
+	public void editName(String name) {
 		WarehouseEntity warehouse = currentWarehouse.get();
 		warehouse.setName(name);
 	}
@@ -109,8 +122,7 @@ public class WareHouseService {
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Interrupted exception: " + e);//salah karena stack trace hilang
 		}
 		return str;
 	}
